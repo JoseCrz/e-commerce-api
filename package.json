@@ -1,0 +1,35 @@
+{
+  "name": "e-commerce-api",
+  "version": "1.0.0",
+  "description": "e-Commerce API made with Node & Express.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoseCrz/e-commerce-api.git"
+  },
+  "keywords": [
+    "Node",
+    "NodeJS",
+    "JS",
+    "JavaScript",
+    "Express",
+    "API"
+  ],
+  "author": "José Cuevas <josecueram@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JoseCrz/e-commerce-api/issues"
+  },
+  "homepage": "https://github.com/JoseCrz/e-commerce-api#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
