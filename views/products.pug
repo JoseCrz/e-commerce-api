@@ -1,5 +1,27 @@
-ul
-  each product in products
-    li
-      strong= product.name
-      p= product.price
+extends  layout.pug
+
+block hero
+  section.hero.is-dark.is-bold
+    .hero-body
+      .container
+        h1.title Café Veracruzano
+        h2.subtitle El mejor café de México
+
+block content
+  .container(style='flex: 1; padding: 50px 0;')
+    .columns.is-multiline
+      each product in products
+        .column.is-one-quarter
+          .card
+            .card-image
+              figure.image
+                img(src=product.image)
+            .card-content
+              h1.title= product.name
+              .button.is-full-width.is-primary
+                span.icon
+                  i.fas.fa-shopping-cart
+                span Add to cart 
+                strong= `${product.price} MXN`
+            
+          
