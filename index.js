@@ -2,7 +2,7 @@ const express  = require('express')
 const PORT = require('./config').port
 const path = require('path')
 
-const productsRouter = require('./routes/products')
+const productsRouter = require('./routes/views/products')
 const productsAPIRouter = require('./routes/api/products')
 
 const  app = express()
