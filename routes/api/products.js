@@ -51,10 +51,10 @@ router.get('/:productId', async (req, res, next) => {
 
 router.put('/:productId', async (req, res, next) => {
   const { productId } = req.params
-  const productData = req.body
+  const product = req.body
   
   try {
-    const updatedProduct = await productsService.updateProduct({ productId, productData})
+    const updatedProduct = await productsService.updateProduct({ productId, product})
   
     res.status(200).json({
       data: updatedProduct,
