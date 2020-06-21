@@ -1,6 +1,11 @@
-const { dev } = require('../../config')
+const Sentry = require('@sentry/node')
+
+const { dev, sentryDNS, sentryID } = require('../../config')
+
+Sentry.init({ dsn: `https://${sentryDNS}/${sentryID}` })
 
 const logErrors = (error, req, res, next) => {
+  Sentry.captureException(error)
   console.log(error.stack)
   next(error)
 }
