@@ -4,6 +4,7 @@ const path = require('path')
 
 const productsRouter = require('./routes/views/products')
 const productsAPIRouter = require('./routes/api/products')
+const { logErrors, clientErrorHandler, errorHandler } = require('./utils/middlewares/errorHandlers')
 
 const  app = express()
 
@@ -20,6 +21,11 @@ app.set('view engine', 'pug')
 // ? Routes
 app.use('/products', productsRouter)
 app.use('/api/products', productsAPIRouter)
+
+// ? Error Handlers
+app.use(logErrors)
+app.use(clientErrorHandler)
+app.use(errorHandler)
 
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT} 🚀`)
