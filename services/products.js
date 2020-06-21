@@ -17,20 +17,40 @@ class ProductsService {
     }
   }
 
-  getOneProduct({ productId }) {
-    return Promise.resolve(productsMock[0])
+  async getOneProduct({ productId }) {
+    try {
+      const product = await this.mongoDB.getOne(this.collection, productId)
+      return product || {}
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  createProduct({ product }) {
-    return Promise.resolve(productsMock)
+  async createProduct({ product }) {
+    try {
+      const createdProductId = await this.mongoDB.create(this.collection, product)
+      return createdProductId
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  updateProduct({ productId, product }) {
-    return Promise.resolve(productsMock[0])
+  async updateProduct({ productId, product }) {
+    try {
+      const updatedProductId = await this.mongoDB.update(this.collection, productId, product)
+      return updatedProductId
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  deleteProduct({ productId }) {
-    return Promise.resolve(productsMock[0])
+  async deleteProduct({ productId }) {
+    try {
+      const deletedProductId = await this.mongoDB.delete(this.collection, productId)
+      return deletedProductId
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 
