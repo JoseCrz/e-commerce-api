@@ -4,6 +4,7 @@ const path = require('path')
 
 const productsRouter = require('./routes/views/products')
 const productsAPIRouter = require('./routes/api/products')
+const authAPIRouter = require('./routes/api/auth')
 const { logErrors, errorWrapper, clientErrorHandler, errorHandler } = require('./utils/middlewares/errorHandlers')
 const notFoundHandler = require('./utils/middlewares/notFoundHandler')
 const  app = express()
@@ -21,6 +22,7 @@ app.set('view engine', 'pug')
 // ? Routes
 app.use('/products', productsRouter)
 app.use('/api/products', productsAPIRouter)
+app.use('/api/auth', authAPIRouter)
 
 // ? Home Redirect
 app.get('/', (req, res) => {
