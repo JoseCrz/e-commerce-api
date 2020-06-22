@@ -1,13 +1,11 @@
 const express  = require('express')
 const PORT = require('./config').port
 const path = require('path')
-const boom = require('@hapi/boom')
 
 const productsRouter = require('./routes/views/products')
 const productsAPIRouter = require('./routes/api/products')
 const { logErrors, errorWrapper, clientErrorHandler, errorHandler } = require('./utils/middlewares/errorHandlers')
-const isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi')
-
+const notFoundHandler = require('./utils/middlewares/notFoundHandler')
 const  app = express()
 
 // ? Middleware
@@ -30,14 +28,7 @@ app.get('/', (req, res) => {
 })
 
 // ? Not Found
-app.use((req, res, next) => {
-  if (isRequestAjaxOrApi(req)) {
-    const { output: { statusCode, payload } } = boom.notFound()
-    res.status(statusCode).json(payload)
-  }
-
-  res.status(404).render('404')
-})
+app.use(notFoundHandler)
 
 
 // ? Error Handlers
