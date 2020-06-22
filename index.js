@@ -27,6 +27,11 @@ app.use(logErrors)
 app.use(clientErrorHandler)
 app.use(errorHandler)
 
+// ? Home Redirect
+app.get('/', (req, res) => {
+  res.redirect('/products')
+})
+
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT} 🚀`)
 })
