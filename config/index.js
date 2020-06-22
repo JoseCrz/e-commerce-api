@@ -8,7 +8,11 @@ const config = {
   dbPassword: process.env.DB_PASSWORD,
   dbHost: process.env.DB_HOST,
   sentryDNS: process.env.SENTRY_DNS,
-  sentryID: process.env.SENTRY_ID
+  sentryID: process.env.SENTRY_ID,
+  authAdminUsername: process.env.AUTH_ADMIN_USERNAME,
+  authAdminPassword: process.env.AUTH_ADMIN_PASSWORD,
+  authAdminEmail: process.env.AUTH_ADMIN_EMAIL,
+  authJwtSecret: process.env.AUTH_JWT_SECRET,
 }
 
 module.exports = config
