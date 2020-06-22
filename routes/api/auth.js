@@ -10,7 +10,7 @@ const router = express.Router()
 // ? Implement basic strategy
 require('../../utils/auth/strategies/basic')
 
-router.post('/token', (req, res, next) => {
+router.post('/sign-in', (req, res, next) => {
   passport.authenticate('basic', (error, user) => {
     try {
       if (error || !user) {
