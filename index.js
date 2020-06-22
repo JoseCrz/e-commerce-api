@@ -4,7 +4,7 @@ const path = require('path')
 
 const productsRouter = require('./routes/views/products')
 const productsAPIRouter = require('./routes/api/products')
-const { logErrors, clientErrorHandler, errorHandler } = require('./utils/middlewares/errorHandlers')
+const { logErrors, errorWrapper, clientErrorHandler, errorHandler } = require('./utils/middlewares/errorHandlers')
 
 const  app = express()
 
@@ -24,6 +24,7 @@ app.use('/api/products', productsAPIRouter)
 
 // ? Error Handlers
 app.use(logErrors)
+app.use(errorWrapper)
 app.use(clientErrorHandler)
 app.use(errorHandler)
 
