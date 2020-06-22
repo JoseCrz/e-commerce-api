@@ -1,10 +1,16 @@
 const express = require('express')
-const router = express.Router()
+const passport = require('passport')
+
 const ProductsService = require('../../services/products')
 const validationHandler = require('../../utils/middlewares/validationHandler')
 const { productIdSchema, createProductSchema, updateProductSchema} = require('../../utils/schemas/products')
 
+// ? JWT Strategy
+require('../../utils/auth/strategies/jwt')
+
 const productsService = new ProductsService()
+
+const router = express.Router()
 
 router.get('/', async (req, res, next) => {
   const { tags } = req.query
@@ -58,6 +64,7 @@ async (req, res, next) => {
 )
 
 router.put('/:productId',
+  passport.authenticate('jwt',{ session: false }),
   validationHandler({productId: productIdSchema}, 'params'),
   validationHandler(updateProductSchema),
   async (req, res, next) => {
@@ -78,6 +85,7 @@ router.put('/:productId',
 )
 
 router.delete('/:productId',
+passport.authenticate('jwt',{ session: false }),
 validationHandler({productId: productIdSchema}),
 async (req, res, next) => {
     const { productId } = req.params
