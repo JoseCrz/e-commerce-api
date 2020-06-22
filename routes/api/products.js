@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const ProductsService = require('../../services/products')
+const validationHandler = require('../../utils/middlewares/validationHandler')
+const { productIdSchema, createProductSchema, updateProductSchema} = require('../../utils/schemas/products')
 
 const productsService = new ProductsService()
 
@@ -20,63 +22,76 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
-  const product  = req.body
-  try {
-    const createdProduct = await productsService.createProduct({ product })
+router.post('/',
+  validationHandler(createProductSchema),
+  async (req, res, next) => {
+    const product  = req.body
+    try {
+      const createdProduct = await productsService.createProduct({ product })
+      
+      res.status(201).json({
+        data: createdProduct,
+        message: 'product created'
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
+router.get('/:productId',
+validationHandler({ productId: productIdSchema }, 'params'),
+async (req, res, next) => {
+    const { productId } = req.params
+
+    try {
+      const product = await productsService.getOneProduct({ productId })
+      
+      res.status('200').json({
+        data: product,
+        message: 'product retrieved'
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
+router.put('/:productId',
+  validationHandler({productId: productIdSchema}, 'params'),
+  validationHandler(updateProductSchema),
+  async (req, res, next) => {
+    const { productId } = req.params
+    const product = req.body
     
-    res.status(201).json({
-      data: createdProduct,
-      message: 'product created'
-    })
-  } catch (error) {
-    next(error)
-  }
-})
-
-router.get('/:productId', async (req, res, next) => {
-  const { productId } = req.params
-
-  try {
-    const product = await productsService.getOneProduct({ productId })
+    try {
+      const updatedProduct = await productsService.updateProduct({ productId, product})
     
-    res.status('200').json({
-      data: product,
-      message: 'product retrieved'
-    })
-  } catch (error) {
-    next(error)
+      res.status(200).json({
+        data: updatedProduct,
+        message: 'product updated'
+      })
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
-router.put('/:productId', async (req, res, next) => {
-  const { productId } = req.params
-  const product = req.body
-  
-  try {
-    const updatedProduct = await productsService.updateProduct({ productId, product})
-  
-    res.status(200).json({
-      data: updatedProduct,
-      message: 'product updated'
-    })
-  } catch (error) {
-    next(error)
+router.delete('/:productId',
+validationHandler({productId: productIdSchema}),
+async (req, res, next) => {
+    const { productId } = req.params
+    try {
+      const deletedProduct = productsService.deleteProduct({ productId })
+    
+      res.status(200).json({
+        data: deletedProduct,
+        message: 'product deleted'
+      })
+    } catch (error) {
+      next(error)
+    }
   }
-})
-
-router.delete('/:productId', async (req, res, next) => {
-  const { productId } = req.params
-  try {
-    const deletedProduct = productsService.deleteProduct({ productId })
-  
-    res.status(200).json({
-      data: deletedProduct,
-      message: 'product deleted'
-    })
-  } catch (error) {
-    next(error)
-  }
-})
+)
 
 module.exports = router
