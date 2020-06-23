@@ -1,6 +1,7 @@
 const express  = require('express')
-const PORT = require('./config').port
+const { port: PORT, dev } = require('./config')
 const path = require('path')
+const helmet = require('helmet')
 
 const productsRoutes = require('./routes/views/products')
 const productsAPIRoutes = require('./routes/api/products')
@@ -10,6 +11,9 @@ const notFoundHandler = require('./utils/middlewares/notFoundHandler')
 const  app = express()
 
 // ? Middleware
+if (!dev) {
+  app.use(helmet()) // helmet must be the first middleware, always
+}
 app.use(express.json())
 
 // ? Static files settings
