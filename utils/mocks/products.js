@@ -1,14 +1,38 @@
 const productsMock = [
   {
-    name: 'Red Honey',
-    price: 75,
-    image: 'https://cdn.shopify.com/s/files/1/0271/3472/2105/products/WhatsApp_Image_2020-06-04_at_11-removebg-preview_1296x.png?v=1591654871'
+    name: 'Thippanahalli Estate',
+    price: 360,
+    image: 'https://cdn.shopify.com/s/files/1/3006/6212/products/DCC_India_Thippa-250g_1200x.jpg?v=1558577723',
+    tags: ['Dark Chocolate', 'Hazelnut', 'Brown Spice',]
   },
   {
-    name: 'Lavado',
-    price: 70,
-    image: 'https://cdn.shopify.com/s/files/1/0271/3472/2105/products/WhatsApp_Image_2020-06-04_at_11-removebg-preview_1296x.png?v=1591654871'
-  }
+    name: 'Thippanahalli Estate',
+    price: 360,
+    image: 'https://cdn.shopify.com/s/files/1/3006/6212/products/DCC_India_Thippa-250g_1200x.jpg?v=1558577723',
+    tags: ['Dark Chocolate', 'Hazelnut', 'Brown Spice',]
+  },
 ]
 
-module.exports = productsMock
+const filteredProductsMock = tag => {
+  return productsMock.filter(product => product.tags.includes(tag))
+}
+
+class ProductsServiceMock {
+  async getProducts() {
+    return Promise.resolve(productsMock)
+  }
+
+  async getOneProduct() {
+    return Promise.resolve(productsMock[0])
+  }
+
+  async createProducts() {
+    return Promise.resolve('5eeffd9be305be0d031e0660')
+  }
+}
+
+module.exports = {
+  productsMock,
+  filteredProductsMock,
+  ProductsServiceMock
+}
