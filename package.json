@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "12.x"
+  },
   "name": "e-commerce-api",
   "version": "1.0.0",
   "description": "e-Commerce API made with Node & Express.js",
