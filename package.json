@@ -4,7 +4,8 @@
   "description": "e-Commerce API made with Node & Express.js",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "NODE_ENV=production node index.js",
+    "build": "cd static/assets && cleancss -o main.min.css main.css",
     "debug": "DEBUG=express:*,app:* npm run start",
     "test": "mocha --exit",
     "dev": "nodemon index.js",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "chalk": "^4.1.0",
+    "clean-css-cli": "^4.3.0",
     "mocha": "^8.0.1",
     "nodemon": "^2.0.4",
     "proxyquire": "^2.1.3",
