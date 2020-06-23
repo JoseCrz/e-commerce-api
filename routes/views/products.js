@@ -1,7 +1,10 @@
 const express = require('express')
 
-const ProductsService = require('../../services/products')
 const { dev } = require('../../config')
+const ProductsService = require('../../services/products')
+const cacheResponse = require('../../utils/cacheResponse')
+const { FIVE_MINUTES } = require('../../utils/cacheTimes')
+
 const productsService = new ProductsService()
 
 const productsRoutes = app => {
@@ -9,6 +12,8 @@ const productsRoutes = app => {
   app.use('/products', router)
 
   router.get('/', async (req, res, next) => {
+    cacheResponse(res, FIVE_MINUTES)
+    
     const { tags } = req.query
     try {
       const products = await productsService.getProducts({ tags })
@@ -17,6 +22,7 @@ const productsRoutes = app => {
       next(error)
     }
   })
+
 }
 
 

@@ -4,6 +4,8 @@ const passport = require('passport')
 const ProductsService = require('../../services/products')
 const validationHandler = require('../../utils/middlewares/validationHandler')
 const { productIdSchema, createProductSchema, updateProductSchema} = require('../../utils/schemas/products')
+const cacheResponse = require('../../utils/cacheResponse')
+const { SIXTY_MINUTES, FIVE_MINUTES }  = require('../../utils/cacheTimes')
 
 // ? JWT Strategy
 require('../../utils/auth/strategies/jwt')
@@ -13,8 +15,11 @@ const productsService = new ProductsService()
 const productsRoutes = app => {
   const router = express.Router()
   app.use('/api/products', router)
-
+  
+  // ? List all products
   router.get('/', async (req, res, next) => {
+    cacheResponse(res, FIVE_MINUTES)
+    
     const { tags } = req.query
     
     try {
@@ -30,6 +35,7 @@ const productsRoutes = app => {
     }
   })
   
+  // ? Create new product
   router.post('/',
     validationHandler(createProductSchema),
     async (req, res, next) => {
@@ -47,9 +53,12 @@ const productsRoutes = app => {
     }
   )
   
+  // ? Product detail
   router.get('/:productId',
   validationHandler({ productId: productIdSchema }, 'params'),
   async (req, res, next) => {
+      cacheResponse(res, SIXTY_MINUTES)
+      
       const { productId } = req.params
   
       try {
@@ -65,6 +74,7 @@ const productsRoutes = app => {
     }
   )
   
+  // ? Update product
   router.put('/:productId',
     passport.authenticate('jwt',{ session: false }),
     validationHandler({productId: productIdSchema}, 'params'),
@@ -85,7 +95,8 @@ const productsRoutes = app => {
       }
     }
   )
-  
+
+  // ? Delete a product
   router.delete('/:productId',
   passport.authenticate('jwt',{ session: false }),
   validationHandler({productId: productIdSchema}),
